@@ -25,7 +25,8 @@ export default function InspectionForm() {
   const today = new Date().toISOString().split('T')[0];
   const emptyForm = {
     client: '', part: '', date: today, inspector: '',
-    qtyInspected: '', qtyGood: '', qtyDefective: '', defectType: '', notes: '',
+    qtyInspected: '', qtyGood: '', qtyDefective: '',
+    defectType: '', hours: '', notes: '',
   };
   const [form, setForm] = useState(emptyForm);
 
@@ -55,6 +56,7 @@ export default function InspectionForm() {
     if (form.qtyGood === '') e.qtyGood   = 'Required';
     if (parseInt(form.qtyGood) > parseInt(form.qtyInspected))   e.qtyGood = 'Cannot exceed quantity inspected';
     if (!form.defectType)  e.defectType  = 'Required';
+    if (!form.hours || parseFloat(form.hours) <= 0) e.hours = 'Required — enter hours worked';
     return e;
   };
 
@@ -67,6 +69,7 @@ export default function InspectionForm() {
       qtyInspected: parseInt(form.qtyInspected),
       qtyGood:      parseInt(form.qtyGood),
       qtyDefective: parseInt(form.qtyDefective) || 0,
+      hours:        parseFloat(form.hours),
     });
     setSaved(true);
   };
@@ -120,6 +123,7 @@ export default function InspectionForm() {
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
           <Field label="Client *" error={errors.client}>
             <select value={form.client} onChange={e => set('client', e.target.value)} className={inputCls(errors.client)}>
               <option value="">Select client…</option>
@@ -180,6 +184,16 @@ export default function InspectionForm() {
               {DEFECT_TYPES.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </Field>
+
+          <Field label="Inspection Hours *" error={errors.hours}>
+            <input
+              type="number" min="0.5" max="12" step="0.5" placeholder="e.g. 4"
+              value={form.hours} onChange={e => set('hours', e.target.value)}
+              className={inputCls(errors.hours)}
+            />
+            <p className="text-xs text-slate-400 mt-1">Total hours worked on this batch</p>
+          </Field>
+
         </div>
 
         <div className="mt-6">
