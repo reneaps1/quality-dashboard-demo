@@ -17,9 +17,9 @@ export default function Navbar() {
             <div className="bg-blue-600 p-1.5 rounded-lg">
               <ShieldCheck className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-slate-900">
-              QualityCheck <span className="text-blue-600">Pro</span>
-            </span>
+          <span className="text-xl font-bold text-slate-900">
+            QualityCheck <span className="text-blue-600">Pro</span>
+          </span>
           </div>
           <div className="flex items-center gap-1">
             <NavLink to="/dashboard" className={link}>Dashboard</NavLink>
